@@ -12,7 +12,7 @@ import re
 
 
 def getFinancialData(ticker, year):
-    yourapikey = 'b71cafc8234b97d5ecbdeb09b6ee3115'
+    yourapikey = 'a9825b793634b1fd7b14ed94547c0849'
     data = []
     i, j, k = 0, 0, 0
     # BalanceSheet

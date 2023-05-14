@@ -6,6 +6,7 @@ Created on Mon May  8 18:06:26 2023
 @author: ishratvasid
 """
 
+
 def calcF_score(company):
     roa = 1 if company.roa_cy > 0 else 0
     cfo = 1 if company.cfo > 0 else 0
@@ -16,5 +17,6 @@ def calcF_score(company):
     eqOffered = 1 if company.eqOffered <= 0 else 0
     dMargin = 1 if company.dMargin > 0 else 0
     dTurn = 1 if company.dTurn > 0 else 0
-
-    return (roa + cfo + droa + accrual + dlever + dLiquid + eqOffered + dMargin + dTurn)
+    fScore = roa + cfo + droa + accrual + dlever + dLiquid + eqOffered + dMargin + dTurn
+    
+    return roa, cfo, droa, accrual, dlever, dLiquid, eqOffered, dMargin, dTurn, fScore

@@ -12,6 +12,7 @@ from fscore import calcF_score
 def getFscore(companies):
     formateData = []
     for company in companies:
+        roa, cfo, droa, accrual, dlever, dLiquid, eqOffered, dMargin, dTurn, fScore = calcF_score(company)
         info = {
             'Ticker': company.ticker,
             'Name': company.name,
@@ -24,7 +25,16 @@ def getFscore(companies):
             'EQ_Offered': company.eqOffered,
             'dMargin': company.dMargin,
             'dTurn': company.dTurn,
-            'f_score': calcF_score(company)
+            'ROA_Score': roa,
+            'CFO_Score': cfo,
+            'dROA_Score': droa,
+            'Accrual_Score': accrual,
+            'dLeverage_Score': dlever,
+            'dLiquid_Score': dLiquid,
+            'EQ_Offered_Score': eqOffered,
+            'dMargin_Score': dMargin,
+            'dTurn_Score': dTurn,
+            'f_score': fScore
         }
     
         formateData.append(info)

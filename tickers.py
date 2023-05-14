@@ -7,7 +7,7 @@ Created on Mon Apr 17 14:41:08 2023
 '/Users/ishratvasid/Desktop/WQU/Capstone Project'
 """
 
-#import datetime as dt
+from datetime import datetime
 import pandas as pd
 
 def tickers():
@@ -60,3 +60,23 @@ def tickers():
     sp500_history = sp500_history.drop_duplicates(subset=['date','ticker']).reset_index(drop=True)
 
     return sp500_history
+
+def tickersByDate(ticker_df, date):
+    #dt = datetime.strptime(date,'%d-%m-%Y').strftime('%d-%m-%Y')
+    all_tickers_tilldate = ticker_df[ticker_df['date']< date] 
+    all_tickers_tilldate = all_tickers_tilldate.reindex(index=all_tickers_tilldate.index[::-1])
+
+    index_ticker = pd.DataFrame()
+    for i in all_tickers_tilldate['date'].unique():
+        date_df = all_tickers_tilldate[all_tickers_tilldate['date'] == i]
+        if i == '1957-03-04':
+            date_df = date_df[date_df['action'] != 'removed']
+            index_ticker = date_df
+        else:
+            added_df = date_df[date_df['action'] == 'added']
+            index_ticker = index_ticker.append(added_df)
+            removed_df = date_df[date_df['action'] == 'removed']
+            index_ticker = index_ticker[~index_ticker['ticker'].isin(removed_df['ticker'])]
+
+    return index_ticker.reset_index(drop=True) 
+
