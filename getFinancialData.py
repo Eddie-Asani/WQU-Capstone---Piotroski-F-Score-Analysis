@@ -11,8 +11,7 @@ import requests
 import re
 
 
-def getFinancialData(ticker, year):
-    yourapikey = 'a9825b793634b1fd7b14ed94547c0849'
+def getFinancialData(ticker, year, yourapikey):
     data = []
     i, j, k = 0, 0, 0
     # BalanceSheet

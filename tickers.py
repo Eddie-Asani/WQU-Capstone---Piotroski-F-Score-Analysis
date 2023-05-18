@@ -62,6 +62,8 @@ def tickers():
     return sp500_history
 
 def tickersByDate(ticker_df, date):
+    day = date.split('-')
+    date = f"{day[1]}-{day[2]}-{day[0]}"
     #dt = datetime.strptime(date,'%d-%m-%Y').strftime('%d-%m-%Y')
     all_tickers_tilldate = ticker_df[ticker_df['date']< date] 
     all_tickers_tilldate = all_tickers_tilldate.reindex(index=all_tickers_tilldate.index[::-1])
