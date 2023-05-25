@@ -11,12 +11,12 @@ import ratios
 
 
 class Company:
-    def __init__(self,name, ticker, fin_cy, fin_py, fin_py2):
+    def __init__(self,name, ticker, fin_cy, fin_py):
         self.name = name
         self.ticker = ticker
         self.currentYearData = fin_cy
         self.pastYearData = fin_py
-        self.pastYear2Data = fin_py2
+        #self.pastYear2Data = fin_py2
         # Required data from fin statements
 
         netIncome_cy = fin_cy['Net Income']
@@ -36,7 +36,7 @@ class Company:
         netIncome_py = fin_py['Net Income']
         grossMargin_py = fin_py['Gross Margin']
         totalAssets_py = fin_py['Total Assets']
-        opCashFlow_py = fin_py['Operating Cash Flow']
+        #opCashFlow_py = fin_py['Operating Cash Flow']
         begYearTotalAssets_py = fin_py['Beginning Year Total Assets']
         longTermDebt_py = fin_py['Long Term Debt']
         currentAssets_py = fin_py['Current Assets']
@@ -46,7 +46,7 @@ class Company:
         assetTOV_py = ratios.assetTOV(revenue_py, begYearTotalAssets_py)
 
 
-        totalAssets_py2 = fin_py2['Total Assets']
+        #totalAssets_py2 = fin_py2['Total Assets']
 
         # metrics
         self.roa_cy = ratios.roa(netIncome_cy, totalAssets_cy)
