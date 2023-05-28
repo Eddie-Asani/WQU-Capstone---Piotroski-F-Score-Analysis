@@ -20,3 +20,17 @@ def calcF_score(company):
     fScore = roa + cfo + droa + accrual + dlever + dLiquid + eqOffered + dMargin + dTurn
     
     return roa, cfo, droa, accrual, dlever, dLiquid, eqOffered, dMargin, dTurn, fScore
+
+def calcWeightedF_Score(data, coefficients):
+    wROA = data['ROA_Score'] * coefficients[0]
+    wCFO = data['CFO_Score'] * coefficients[1]
+    wdROA = data['dROA_Score'] * coefficients[2]
+    wAccrual = data['Accrual_Score'] * coefficients[3]
+    wdLeverage = data['dLeverage_Score'] * coefficients[4]
+    wdLiquid = data['dLiquid_Score'] * coefficients[5]
+    wEQ_Offered = data['EQ_Offered_Score'] * coefficients[6]
+    wdMargin = data['dMargin_Score'] * coefficients[7]
+    wdTurn = data['dTurn_Score'] * coefficients[8]
+    data['wFScore'] = wROA + wCFO + wdROA + wAccrual + wdLeverage + wdLiquid + wEQ_Offered + wdMargin + wdTurn
+    
+    return data
