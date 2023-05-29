@@ -1,0 +1,31 @@
+The code is mainly divided into three parts:
+
+2.1 Get S&P 500 Index constituents for historical time periods:
+
+The code snippet includes two functions: tickers() and tickersByDate(). Here's an explanation of each function:
+tickers():
+This function retrieves the ticker data for S&P 500 companies from the Wikipedia page "List_of_S&P_500_companies". It first reads the HTML tables from the Wikipedia page using the pd.read_html() function. The function extracts the relevant columns from the first table, including ticker, name, date, and CIK (Central Index Key). The missing or incorrectly formatted date rows are replaced with the date "1990-01-01". Any tickers in the S&P 500 index but not in the Wikipedia history are added to the missing dataframe. The missing data frame is merged with the historical dataframe to create the final S&P 500 ticker history.
+tickersByDate():
+The function filters the ticker dataframe to include only rows with dates earlier than the specified date. For subsequent dates, the function separates the added and removed rows. The added rows are appended to index_ticker, and the removed rows are filtered out from index_ticker.
+2.2 Get the financial indicator values and f-score for the companies: 
+-	The script starts by importing necessary libraries and modules, including tqdm for progress bar visualization and os for handling file paths. Custom modules, such as tickers, getFinancialData, company, getFscore, and getPriceReturn, are imported. These modules contain functions related to retrieving financial data, calculating F-Scores, and obtaining stock price returns.
+
+-	The variable all_tickers is assigned the result of the tickers() function, which retrieves all tickers from Wikipedia. The variables tdate and pydate represent the time periods for analysis, with tdate being the current date and pydate being the previous year's date. The variable sp500_tickersByDate is assigned the result of the tickersByDate() function, which filters the tickers based on the specified start date
+
+-	A loop is initiated to iterate over the ticker data in sp500_tickersByDate. Inside the loop, the ticker, name, and financial data for each company are extracted. The getFinancialData() function is called to retrieve financial data for the current ticker using the specified year and API key. The resulting data is assigned to the finData variable. An instance of the company.Company class is created using the company name, ticker, and financial data. 
+
+-	Once the loop completes, the getFscore() function is called, passing the companies list as input, to calculate the F-Scores for each company. The getAPIPriceReturn() function is called to retrieve the stock price return data for the given ticker, using the previous year's date (pydate) and the current date (tdate). The resulting F-Score DataFrame, fscore, contains the calculated F-Scores and associated stock price return data for the analyzed companies.
+
+
+2.3 Implement the Weighted F-SCore Strategy and backtest:
+
+This code performs a backtesting analysis using the Piotroski F-Score strategy. Here's a breakdown of the code:
+- The necessary libraries, including tqdm, numpy, pandas, and os, are imported. The required modules, getAPIPriceReturn and calcWeightedF_Score, are imported.
+ 
+- A loop is initiated for each year from 2010 to 2022. The loop starts by reading an Excel file that contains F-Score data for a particular year. The independent variables (X) are extracted from the data which are Financial Indicator values considered as features for the LASSO model, while the dependent variable (Y) represents the stock return. An instance of Lasso regression is created with a specified regularization parameter (alpha). The Lasso regression model is fitted using the X and Y data.
+
+- The calcWeightedF_Score() function is called to calculate the weighted F-Score based on the obtained coefficients from regression. The function multiplies each fundamental indicator score by its corresponding coefficient to obtain the weighted score for that indicator. The weighted F-Score is obtained by summing up the weighted scores for each fundamental indicator:
+
+- Backtesting is performed for the specified year. Two strategies are implemented: weighted F-Score strategy and original F-Score strategy. For each strategy, the stocks are sorted based on specific criteria (weighted F-Score or F-Score) and price returns. A subset of stocks is selected for the portfolio (e.g., top 100 stocks) based on the sorting results. The signal column is populated with a value of (1) to indicate “Buy” and value of (-1) to “Short” the stock. The price returns for the selected stocks are obtained using the getAPIPriceReturn()function. 
+
+- The final output DataFrame contains the backtesting results for each year, including the portfolio returns, standard deviation, and Sharpe ratio for both the weighted F-Score and original F-Score strategies.
